@@ -10,7 +10,7 @@ const NewsTile = ({ news }: NewsTileProps) => {
     <div className="flex gap-3 rounded-lg bg-gray-100 p-2">
       <img
         className="object-cover w-32 aspect-video rounded-lg"
-        src={news.image}
+        src={news.image || "/images/news-placeholder.webp"}
         alt={news.title}
         onError={(e) => {
           e.currentTarget.src = "/images/news-placeholder.webp";

@@ -1,4 +1,4 @@
-import { NewsCardProps } from "@/components/NewsCard";
+import { INews } from "@/types";
 import { useLocation } from "react-router-dom";
 import { formatDate } from "@/utils";
 import { data } from "./Home";
@@ -6,7 +6,7 @@ import NewsTile from "@/components/NewsTile";
 
 const NewsDetail = () => {
   const { state } = useLocation();
-  const { news } = state as NewsCardProps;
+  const news = state.news as INews;
 
   return (
     <div className="my-6 lg:flex gap-4">

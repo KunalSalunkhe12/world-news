@@ -1,18 +1,7 @@
+import { INews } from "@/types";
 import { Link } from "react-router-dom";
 
-export interface NewsCardProps {
-  news: {
-    id: number;
-    text: string;
-    title: string;
-    url: string;
-    image: string;
-    summary: string;
-    author: string;
-    publish_date: string;
-  };
-}
-const NewsCard = ({ news }: NewsCardProps) => {
+const NewsCard = ({ news }: { news: INews }) => {
   return (
     <Link
       to={`/news/${news.id}`}
@@ -21,7 +10,7 @@ const NewsCard = ({ news }: NewsCardProps) => {
     >
       <img
         className="object-cover h-48 w-full rounded-t-lg"
-        src={news.image}
+        src={news.image || "/images/news-placeholder.webp"}
         onError={(e) => {
           e.currentTarget.src = "/images/news-placeholder.webp";
         }}
@@ -33,7 +22,7 @@ const NewsCard = ({ news }: NewsCardProps) => {
         </h2>
         <p className="text-gray-600 text-sm">
           {news.text.slice(0, 200) + "..."}
-          <span className="text-blue-500"> more</span>
+          <span className="text-secondary"> more</span>
         </p>
         <p className="mt-auto self-end text-sm text-gray-500">{news.author}</p>
       </div>
