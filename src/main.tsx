@@ -6,11 +6,13 @@ import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import NewsDetail from "./pages/NewsDetail.tsx";
+import Error from "./components/Error.tsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement: <Error />,
     children: [
       {
         index: true,
