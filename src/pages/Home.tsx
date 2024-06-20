@@ -1,5 +1,6 @@
 import Filters from "@/components/Filters";
 import NewsCard from "@/components/NewsCard";
+import SkeletonLoading from "@/components/SkeletonLoading";
 import { INews } from "@/types";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
@@ -188,17 +189,18 @@ const Home = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
+      console.log("Fetching articles...");
       setLoading(true);
       const params = new URLSearchParams(location.search);
       const filter = params.get("filter");
       try {
         const response = await fetch(
-          `${import.meta.env.VITE_NEWS_API_URL}?text=${filter}`,
-          {
-            headers: {
-              apiKey: import.meta.env.VITE_API_KEY,
-            },
-          }
+          `${
+            import.meta.env.VITE_NEWS_API_URL
+          }?text=${filter}&language=en&offset=20&api-key=${
+            import.meta.env.VITE_NEWS_API_KEY
+          }`,
+          {}
         );
         const { news } = await response.json();
         setArticles(news);
@@ -215,13 +217,15 @@ const Home = () => {
     <section className="h-screen">
       <Filters />
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          articles.map((news) => <NewsCard key={news.id} news={news} />)
-        )}
-      </div>
+      {loading ? (
+        <SkeletonLoading />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
+          {articles.map((news) => (
+            <NewsCard key={news.id} news={news} />
+          ))}
+        </div>
+      )}
     </section>
   );
 };
