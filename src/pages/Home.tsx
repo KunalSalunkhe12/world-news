@@ -1,3 +1,4 @@
+import Filters from "@/components/Filters";
 import NewsCard from "@/components/NewsCard";
 
 export const data = [
@@ -180,8 +181,9 @@ export const data = [
 const Home = () => {
   return (
     <section className="h-screen">
+      <Filters />
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-8 gap-y-14 pb-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
         {data.map((news) => (
           <NewsCard key={news.title} news={news} />
         ))}
