@@ -1,5 +1,8 @@
 import Filters from "@/components/Filters";
 import NewsCard from "@/components/NewsCard";
+import { INews } from "@/types";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 export const data = [
   {
@@ -179,14 +182,45 @@ export const data = [
 ];
 
 const Home = () => {
+  const location = useLocation();
+  const [articles, setArticles] = useState<INews[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArticles = async () => {
+      setLoading(true);
+      const params = new URLSearchParams(location.search);
+      const filter = params.get("filter");
+      try {
+        const response = await fetch(
+          `${import.meta.env.VITE_NEWS_API_URL}?text=${filter}`,
+          {
+            headers: {
+              apiKey: import.meta.env.VITE_API_KEY,
+            },
+          }
+        );
+        const { news } = await response.json();
+        setArticles(news);
+      } catch (error) {
+        console.error("Failed to fetch articles:", error);
+      }
+      setLoading(false);
+    };
+
+    fetchArticles();
+  }, [location.search]);
+
   return (
     <section className="h-screen">
       <Filters />
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-        {data.map((news) => (
-          <NewsCard key={news.title} news={news} />
-        ))}
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          articles.map((news) => <NewsCard key={news.id} news={news} />)
+        )}
       </div>
     </section>
   );
