@@ -17,9 +17,13 @@ const Filters = () => {
 
   const handleFilter = (filter: string) => {
     if (filter === "general") {
-      return setSearchParams({});
+      return setSearchParams({ page: "1" });
     }
-    setSearchParams({ filter });
+    setSearchParams((searchParams) => {
+      searchParams.set("filter", filter);
+      searchParams.set("page", "1");
+      return searchParams;
+    });
   };
 
   return (
