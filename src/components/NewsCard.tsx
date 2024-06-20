@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-interface NewsCardProps {
+export interface NewsCardProps {
   news: {
     id: number;
     text: string;
@@ -13,15 +13,18 @@ interface NewsCardProps {
   };
 }
 const NewsCard = ({ news }: NewsCardProps) => {
-  console.log(news);
   return (
     <Link
       to={`/news/${news.id}`}
       className="cursor-pointer shadow-2xl rounded-lg flex flex-col"
+      state={{ news }}
     >
       <img
         className="object-cover h-48 w-full rounded-t-lg"
         src={news.image}
+        onError={(e) => {
+          e.currentTarget.src = "/images/news-placeholder.webp";
+        }}
         alt={news.title}
       />
       <div className="p-4 flex-1 flex flex-col gap-4">
