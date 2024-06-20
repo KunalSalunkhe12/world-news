@@ -1,9 +1,10 @@
 import Filters from "@/components/Filters";
 import NewsCard from "@/components/NewsCard";
+import Pagination from "@/components/Pagination";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { INews } from "@/types";
 import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const data = [
   {
@@ -183,25 +184,39 @@ export const data = [
 ];
 
 const Home = () => {
-  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [articles, setArticles] = useState<INews[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+
+  const filter = searchParams.get("filter") || "";
+  const currentPage = Number(searchParams.get("page")) || 1;
+
+  useEffect(() => {
+    setSearchParams((searchParams) => {
+      searchParams.set("page", "1");
+      return searchParams;
+    });
+  }, []);
 
   useEffect(() => {
     const fetchArticles = async () => {
-      console.log("Fetching articles...");
       setLoading(true);
-      const params = new URLSearchParams(location.search);
-      const filter = params.get("filter");
       try {
-        const response = await fetch(
-          `${
-            import.meta.env.VITE_NEWS_API_URL
-          }?text=${filter}&language=en&offset=20&api-key=${
-            import.meta.env.VITE_NEWS_API_KEY
-          }`,
-          {}
-        );
+        const baseUrl = import.meta.env.VITE_NEWS_API_URL;
+        const url = new URL(baseUrl);
+        const offset = (currentPage - 1) * 12;
+
+        const params = new URLSearchParams({
+          text: filter,
+          language: "en",
+          offset: offset.toString(),
+          number: "12",
+          "api-key": import.meta.env.VITE_NEWS_API_KEY,
+        });
+
+        url.search = params.toString();
+
+        const response = await fetch(url);
         const { news } = await response.json();
         setArticles(news);
       } catch (error) {
@@ -211,7 +226,7 @@ const Home = () => {
     };
 
     fetchArticles();
-  }, [location.search]);
+  }, [filter, currentPage]);
 
   return (
     <section className="h-screen">
@@ -221,11 +236,12 @@ const Home = () => {
         <SkeletonLoading />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-          {articles.map((news) => (
+          {data.map((news) => (
             <NewsCard key={news.id} news={news} />
           ))}
         </div>
       )}
+      <Pagination />
     </section>
   );
 };
