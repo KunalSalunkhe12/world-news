@@ -12,7 +12,7 @@ const SkeletonCard = () => {
 
 const SkeletonLoading = () => {
   return (
-    <div className="-z-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div className="-z-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-10">
       {[...Array(8)].map((_, index) => (
         <SkeletonCard key={index} />
       ))}

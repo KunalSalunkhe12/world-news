@@ -5,6 +5,7 @@ import SkeletonLoading from "@/components/SkeletonLoading";
 import { INews } from "@/types";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import Error from "@/components/Error";
 
 export const data = [
   {
@@ -211,7 +212,7 @@ const Home = () => {
           language: "en",
           offset: offset.toString(),
           number: "12",
-          "api-key": import.meta.env.VITE_NEWS_API_KEY,
+          "api-key": import.meta.env.VITE_NEWS_API_KEY_2,
         });
 
         url.search = params.toString();
@@ -234,12 +235,14 @@ const Home = () => {
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
       {loading ? (
         <SkeletonLoading />
-      ) : (
+      ) : articles ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-          {data.map((news) => (
+          {articles.map((news) => (
             <NewsCard key={news.id} news={news} />
           ))}
         </div>
+      ) : (
+        <Error />
       )}
       <Pagination />
     </section>
