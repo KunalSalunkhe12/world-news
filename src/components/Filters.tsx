@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 const Filters = () => {
   const homeFilters = [
+    { id: 1, name: "general" },
     { id: 2, name: "education" },
     { id: 3, name: "business" },
     { id: 4, name: "technology" },
@@ -15,6 +16,9 @@ const Filters = () => {
   console.log(activeFilter);
 
   const handleFilter = (filter: string) => {
+    if (filter === "general") {
+      return setSearchParams({});
+    }
     setSearchParams({ filter });
   };
 
@@ -25,7 +29,8 @@ const Filters = () => {
           key={filter.id}
           onClick={() => handleFilter(filter.name)}
           className={`py-2 px-4 rounded-lg ${
-            activeFilter === filter.name
+            activeFilter === filter.name ||
+            (!activeFilter && filter.name === "general")
               ? "bg-secondary text-white"
               : "bg-gray-200"
           }`}
