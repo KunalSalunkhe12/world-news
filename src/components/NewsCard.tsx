@@ -1,12 +1,12 @@
 import { INews } from "@/types";
 import { Link } from "react-router-dom";
 
-const NewsCard = ({ news }: { news: INews }) => {
+const NewsCard = ({ news, filter }: { news: INews; filter: string }) => {
   return (
     <Link
       to={`/news/${news.id}`}
       className="cursor-pointer shadow-2xl rounded-lg flex flex-col"
-      state={{ news }}
+      state={{ news, filter }}
     >
       <img
         className="object-cover h-48 w-full rounded-t-lg"

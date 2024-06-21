@@ -2,10 +2,10 @@ import Filters from "@/components/Filters";
 import NewsCard from "@/components/NewsCard";
 import Pagination from "@/components/Pagination";
 import SkeletonLoading from "@/components/SkeletonLoading";
-import { INews } from "@/types";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Error from "@/components/Error";
+import useFetchNews from "@/utils/useFetchNews";
 
 export const data = [
   {
@@ -186,11 +186,10 @@ export const data = [
 
 const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [articles, setArticles] = useState<INews[]>([]);
-  const [loading, setLoading] = useState(false);
-
   const filter = searchParams.get("filter") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
+
+  const { articles, loading } = useFetchNews(currentPage, filter);
 
   useEffect(() => {
     setSearchParams((searchParams) => {
@@ -198,36 +197,6 @@ const Home = () => {
       return searchParams;
     });
   }, []);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      setLoading(true);
-      try {
-        const baseUrl = import.meta.env.VITE_NEWS_API_URL;
-        const url = new URL(baseUrl);
-        const offset = (currentPage - 1) * 12;
-
-        const params = new URLSearchParams({
-          text: filter,
-          language: "en",
-          offset: offset.toString(),
-          number: "12",
-          "api-key": import.meta.env.VITE_NEWS_API_KEY_2,
-        });
-
-        url.search = params.toString();
-
-        const response = await fetch(url);
-        const { news } = await response.json();
-        setArticles(news);
-      } catch (error) {
-        console.error("Failed to fetch articles:", error);
-      }
-      setLoading(false);
-    };
-
-    fetchArticles();
-  }, [filter, currentPage]);
 
   return (
     <section className="h-screen">
@@ -238,7 +207,7 @@ const Home = () => {
       ) : articles ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
           {articles.map((news) => (
-            <NewsCard key={news.id} news={news} />
+            <NewsCard key={news.id} news={news} filter={filter} />
           ))}
         </div>
       ) : (

@@ -1,3 +1,5 @@
+import { formatDate } from "../utils";
+
 interface NewsTileProps {
   news: {
     image: string;
@@ -17,7 +19,7 @@ const NewsTile = ({ news }: NewsTileProps) => {
         }}
       />
       <div className="space-y-2 p-2">
-        <p className="text-sm text-gray-600">{news.publish_date}</p>
+        <p className="text-sm text-gray-600">{formatDate(news.publish_date)}</p>
         <h3 className="line-clamp-2 text-ellipsis">{news.title}</h3>
       </div>
     </div>
