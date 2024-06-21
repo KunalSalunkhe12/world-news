@@ -190,9 +190,9 @@ const Home = () => {
   const currentPage = Number(searchParams.get("page")) || 1;
   const search = searchParams.get("search");
 
-  const loading = false;
+  // const loading = false;
 
-  // const { articles, loading } = useFetchNews(currentPage, filter, 12, search);
+  const { articles, loading } = useFetchNews(currentPage, filter, 12, search);
 
   useEffect(() => {
     setSearchParams((searchParams) => {
@@ -210,14 +210,18 @@ const Home = () => {
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
       {loading ? (
         <SkeletonLoading />
+      ) : articles.length > 0 ? (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
+            {articles.map((news) => (
+              <NewsCard key={news.id} news={news} filter={filter} />
+            ))}
+          </div>
+          <Pagination />
+        </>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-          {data.map((news) => (
-            <NewsCard key={news.id} news={news} filter={filter} />
-          ))}
-        </div>
+        <h2 className="text-center text-2xl mt-20">No news found</h2>
       )}
-      <Pagination />
     </section>
   );
 };

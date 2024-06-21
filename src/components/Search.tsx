@@ -26,7 +26,7 @@ const Search = () => {
 
   return (
     <div className="flex items-center gap-2 border p-2 rounded-lg flex-1 w-full sm:max-w-[450px] self-end">
-      <FaSearch size={20} />
+      <FaSearch size={20} className="text-gray-400" />
       <input
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
