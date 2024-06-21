@@ -5,7 +5,7 @@ const useFetchNews = (
   currentPage: number,
   filter: string,
   number: number,
-  search?: string
+  search?: string | null
 ) => {
   const [articles, setArticles] = useState<INews[]>([]);
   const [loading, setLoading] = useState(false);
@@ -18,12 +18,17 @@ const useFetchNews = (
         const url = new URL(baseUrl);
         const offset = (currentPage - 1) * 12;
 
+        // Due to the API's limitation, we can't search for articles with less than 3 characters
+        if (search && search.length < 3) {
+          search = null;
+        }
+
         const params = new URLSearchParams({
-          text: search || filter,
+          text: search ?? filter,
           language: "en",
           offset: offset.toString(),
           number: number.toString(),
-          "api-key": import.meta.env.VITE_NEWS_API_KEY_2,
+          "api-key": import.meta.env.VITE_NEWS_API_KEY,
         });
 
         url.search = params.toString();
@@ -42,7 +47,7 @@ const useFetchNews = (
     };
 
     fetchArticles();
-  }, [filter, currentPage, number]);
+  }, [filter, currentPage, number, search]);
 
   return { articles, loading };
 };
