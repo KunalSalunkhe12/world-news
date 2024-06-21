@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { formatDate } from "@/utils";
 import { data } from "./Home";
 import NewsTile from "@/components/NewsTile";
+import SkeletonLoadingTiles from "@/components/SkeletonLoadingTiles";
 import useFetchNews from "@/utils/useFetchNews";
 
 const NewsDetail = () => {
@@ -10,7 +11,7 @@ const NewsDetail = () => {
   const currentNews = state.news as INews;
   const filter = state.filter as string;
 
-  const { articles, loading } = useFetchNews(1, filter);
+  const { articles, loading } = useFetchNews(1, filter, 5);
 
   return (
     <div className="my-6 lg:flex gap-4">
@@ -37,9 +38,11 @@ const NewsDetail = () => {
       <div className="flex-1">
         <h2 className="text-2xl font-medium">Related articles</h2>
         <div className="space-y-6 mt-4">
-          {articles.map((news) => (
-            <NewsTile key={news.title} news={news} />
-          ))}
+          {loading ? (
+            <SkeletonLoadingTiles />
+          ) : (
+            articles.map((news) => <NewsTile key={news.title} news={news} />)
+          )}
         </div>
       </div>
     </div>
