@@ -26,7 +26,7 @@ const useFetchNews = (
         }
 
         const params = new URLSearchParams({
-          text: search ?? filter,
+          text: filter + (search ? ` ${search}` : ""),
           language: "en",
           offset: offset.toString(),
           number: number.toString(),

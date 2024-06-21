@@ -20,7 +20,6 @@ const Filters = () => {
     setSearchParams((searchParams) => {
       searchParams.set("filter", filter);
       searchParams.set("page", "1");
-      searchParams.delete("search");
       return searchParams;
     });
   };
