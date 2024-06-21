@@ -17,7 +17,10 @@ const Search = () => {
       });
 
       if (searchQuery === "") {
-        setSearchParams({ page: "1" });
+        setSearchParams((searchParams) => {
+          searchParams.delete("search");
+          return searchParams;
+        });
       }
     }, 500);
 
