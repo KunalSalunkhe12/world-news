@@ -1,7 +1,6 @@
 import { INews } from "@/types";
 import { useLocation } from "react-router-dom";
 import { formatDate } from "@/utils";
-import { data } from "./Home";
 import NewsTile from "@/components/NewsTile";
 import SkeletonLoadingTiles from "@/components/SkeletonLoadingTiles";
 import useFetchNews from "@/utils/useFetchNews";
@@ -41,7 +40,10 @@ const NewsDetail = () => {
           {loading ? (
             <SkeletonLoadingTiles />
           ) : (
-            articles.map((news) => <NewsTile key={news.title} news={news} />)
+            articles &&
+            articles.map((news) => (
+              <NewsTile key={news.title} news={news} filter={filter} />
+            ))
           )}
         </div>
       </div>

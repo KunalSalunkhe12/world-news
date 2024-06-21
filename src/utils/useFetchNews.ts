@@ -24,6 +24,10 @@ const useFetchNews = (currentPage: number, filter: string, number: number) => {
         url.search = params.toString();
 
         const response = await fetch(url);
+        if (response.status === 402) {
+          alert("API key limit exceeded, please try again later");
+        }
+
         const { news } = await response.json();
         setArticles(news);
       } catch (error) {
@@ -33,7 +37,7 @@ const useFetchNews = (currentPage: number, filter: string, number: number) => {
     };
 
     fetchArticles();
-  }, [filter, currentPage]);
+  }, [filter, currentPage, number]);
 
   return { articles, loading };
 };
