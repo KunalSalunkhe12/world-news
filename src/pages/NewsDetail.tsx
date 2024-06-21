@@ -10,7 +10,7 @@ const NewsDetail = () => {
   const currentNews = state.news as INews;
   const filter = state.filter as string;
 
-  const { articles, loading } = useFetchNews(1, filter, 5);
+  const { articles, loading } = useFetchNews(5, filter, 5); // Page 5 since same filter is being used so duplicate news will be shown
 
   return (
     <div className="my-6 lg:flex gap-4">
