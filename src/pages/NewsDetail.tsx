@@ -4,13 +4,16 @@ import { formatDate } from "@/utils";
 import NewsTile from "@/components/NewsTile";
 import SkeletonLoadingTiles from "@/components/SkeletonLoadingTiles";
 import useFetchNews from "@/utils/useFetchNews";
+import { data } from "./Home";
 
 const NewsDetail = () => {
   const { state } = useLocation();
   const currentNews = state.news as INews;
   const filter = state.filter as string;
 
-  const { articles, loading } = useFetchNews(1, filter, 5);
+  const loading = false;
+
+  // const { articles, loading } = useFetchNews(1, filter, 5);
 
   return (
     <div className="my-6 lg:flex gap-4">
@@ -40,8 +43,8 @@ const NewsDetail = () => {
           {loading ? (
             <SkeletonLoadingTiles />
           ) : (
-            articles &&
-            articles.map((news) => (
+            data &&
+            data.map((news) => (
               <NewsTile key={news.title} news={news} filter={filter} />
             ))
           )}

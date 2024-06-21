@@ -1,7 +1,12 @@
 import { INews } from "@/types";
 import { useEffect, useState } from "react";
 
-const useFetchNews = (currentPage: number, filter: string, number: number) => {
+const useFetchNews = (
+  currentPage: number,
+  filter: string,
+  number: number,
+  search?: string
+) => {
   const [articles, setArticles] = useState<INews[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -14,7 +19,7 @@ const useFetchNews = (currentPage: number, filter: string, number: number) => {
         const offset = (currentPage - 1) * 12;
 
         const params = new URLSearchParams({
-          text: filter,
+          text: search || filter,
           language: "en",
           offset: offset.toString(),
           number: number.toString(),

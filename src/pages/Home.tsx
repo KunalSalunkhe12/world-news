@@ -4,8 +4,8 @@ import Pagination from "@/components/Pagination";
 import SkeletonLoading from "@/components/SkeletonLoading";
 import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import Error from "@/components/Error";
 import useFetchNews from "@/utils/useFetchNews";
+import Search from "@/components/Search";
 
 export const data = [
   {
@@ -188,8 +188,11 @@ const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const filter = searchParams.get("filter") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
+  const search = searchParams.get("search");
 
-  const { articles, loading } = useFetchNews(currentPage, filter, 12);
+  const loading = false;
+
+  // const { articles, loading } = useFetchNews(currentPage, filter, 12, search);
 
   useEffect(() => {
     setSearchParams((searchParams) => {
@@ -200,18 +203,19 @@ const Home = () => {
 
   return (
     <section className="h-screen">
-      <Filters />
+      <div className="flex flex-col gap-4 lg:flex-row mt-6 justify-between">
+        <Filters />
+        <Search />
+      </div>
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
       {loading ? (
         <SkeletonLoading />
-      ) : articles ? (
+      ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
-          {articles.map((news) => (
+          {data.map((news) => (
             <NewsCard key={news.id} news={news} filter={filter} />
           ))}
         </div>
-      ) : (
-        <Error />
       )}
       <Pagination />
     </section>

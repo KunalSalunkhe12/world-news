@@ -13,8 +13,6 @@ const Filters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeFilter = searchParams.get("filter");
 
-  console.log(activeFilter);
-
   const handleFilter = (filter: string) => {
     if (filter === "general") {
       return setSearchParams({ page: "1" });
@@ -22,13 +20,14 @@ const Filters = () => {
     setSearchParams((searchParams) => {
       searchParams.set("filter", filter);
       searchParams.set("page", "1");
+      searchParams.delete("search");
       return searchParams;
     });
   };
 
   return (
     <div className="max-md:overflow-x-scroll">
-      <div className="mt-6 space-x-4 w-[650px]">
+      <div className="space-x-4 w-[650px]">
         {homeFilters.map((filter) => (
           <button
             key={filter.id}
