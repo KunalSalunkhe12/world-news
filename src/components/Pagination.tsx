@@ -24,6 +24,11 @@ const Pagination = () => {
         searchParams.set("page", nextPage.toString());
         return searchParams;
       });
+    } else {
+      setSearchParams((searchParams) => {
+        searchParams.set("page", "1");
+        return searchParams;
+      });
     }
   };
 
