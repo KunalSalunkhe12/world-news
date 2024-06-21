@@ -27,21 +27,23 @@ const Filters = () => {
   };
 
   return (
-    <div className="mt-6 space-x-4">
-      {homeFilters.map((filter) => (
-        <button
-          key={filter.id}
-          onClick={() => handleFilter(filter.name)}
-          className={`py-2 px-4 rounded-lg ${
-            activeFilter === filter.name ||
-            (!activeFilter && filter.name === "general")
-              ? "bg-secondary text-white"
-              : "bg-gray-200"
-          }`}
-        >
-          {filter.name.toUpperCase()}
-        </button>
-      ))}
+    <div className="max-md:overflow-x-scroll">
+      <div className="mt-6 space-x-4 w-[650px]">
+        {homeFilters.map((filter) => (
+          <button
+            key={filter.id}
+            onClick={() => handleFilter(filter.name)}
+            className={`py-2 px-4 rounded-lg ${
+              activeFilter === filter.name ||
+              (!activeFilter && filter.name === "general")
+                ? "bg-secondary text-white"
+                : "bg-gray-200"
+            }`}
+          >
+            {filter.name.toUpperCase()}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };

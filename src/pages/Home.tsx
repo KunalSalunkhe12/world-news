@@ -189,7 +189,7 @@ const Home = () => {
   const filter = searchParams.get("filter") || "";
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const { articles, loading } = useFetchNews(currentPage, filter);
+  const { articles, loading } = useFetchNews(currentPage, filter, 12);
 
   useEffect(() => {
     setSearchParams((searchParams) => {

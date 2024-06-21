@@ -1,7 +1,7 @@
 import { INews } from "@/types";
 import { useEffect, useState } from "react";
 
-const useFetchNews = (currentPage: number, filter: string) => {
+const useFetchNews = (currentPage: number, filter: string, number: number) => {
   const [articles, setArticles] = useState<INews[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -17,7 +17,7 @@ const useFetchNews = (currentPage: number, filter: string) => {
           text: filter,
           language: "en",
           offset: offset.toString(),
-          number: "12",
+          number: number.toString(),
           "api-key": import.meta.env.VITE_NEWS_API_KEY_2,
         });
 
