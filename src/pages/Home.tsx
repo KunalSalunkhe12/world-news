@@ -25,7 +25,7 @@ const Home = () => {
       <h1 className="text-2xl font-semibold my-6">Latest News</h1>
       {loading ? (
         <SkeletonLoading />
-      ) : articles.length > 0 ? (
+      ) : articles ? (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-14 pb-10">
             {articles.map((news) => (
