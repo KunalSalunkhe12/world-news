@@ -1,5 +1,6 @@
 import { INews } from "@/types";
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 const useFetchNews = (
   currentPage: number,
@@ -9,6 +10,7 @@ const useFetchNews = (
 ) => {
   const [articles, setArticles] = useState<INews[]>([]);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -47,7 +49,7 @@ const useFetchNews = (
     };
 
     fetchArticles();
-  }, [filter, currentPage, number, search]);
+  }, [filter, currentPage, number, search, location]);
 
   return { articles, loading };
 };
