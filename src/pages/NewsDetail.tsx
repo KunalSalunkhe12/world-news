@@ -12,8 +12,8 @@ const NewsDetail = () => {
     <div className="my-6 lg:flex gap-4">
       <div className="w-full lg:w-[40rem] xl:w-[62rem]">
         <img
-          className="w-full lg:h-[30rem] rounded-lg"
-          src={news.image}
+          className="w-full lg:h-[30rem] rounded-lg object-cover object-center"
+          src={news.image || "/images/news-placeholder.webp"}
           alt={news.title}
           onError={(e) => {
             e.currentTarget.src = "/images/news-placeholder.webp";
