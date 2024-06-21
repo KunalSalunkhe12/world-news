@@ -26,7 +26,7 @@ const Pagination = () => {
       });
     } else {
       setSearchParams((searchParams) => {
-        searchParams.set("page", "1");
+        searchParams.set("page", "2");
         return searchParams;
       });
     }
@@ -42,7 +42,9 @@ const Pagination = () => {
         >
           Previous
         </button>
-        <button className="py-2 px-4 rounded-lg text-secondary">{page}</button>
+        <button className="py-2 px-4 rounded-lg text-secondary">
+          {page ?? 1}
+        </button>
         <button
           className="py-2 px-4 rounded-lg bg-gray-200"
           onClick={handleNextPage}
