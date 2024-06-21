@@ -12,6 +12,7 @@ const Search = () => {
     const debouncedSearch = setTimeout(() => {
       setSearchParams((searchParams) => {
         searchParams.delete("filter");
+        searchParams.delete("page");
         searchParams.set("search", searchQuery);
         return searchParams;
       });
